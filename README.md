@@ -1,6 +1,10 @@
 # **Learning Computer Vision**
 
-# Resource 1
+## Roadmap
+
+![roadmap](./static/roadmap.png)
+
+# Resource 1 : Introduction to CV
 
 Access the resource [here.](https://opencv.org/blog/what-is-computer-vision/)
 
@@ -76,3 +80,141 @@ Access the resource [here.](https://opencv.org/blog/what-is-computer-vision/)
     - reshaping the landscape of Computer Vision in both consumer and enterprise IoT domains
 4. Meta
     - platforms and products to create more immersive experiences and enhance user safety
+
+# Resource 2 : Object Detection using yolo v8
+
+Access link [here.](https://docs.ultralytics.com/tasks/detect/)
+
+Github link [here.](https://github.com/ultralytics/ultralytics)
+
+## 1. Train
+
+- Train YOLO11n on the COCO8 dataset for 100 epochs at image size 640.
+
+```python
+    from ultralytics import YOLO
+
+    # Load a model
+    model = YOLO("yolo11n.yaml")  # build a new model from YAML
+    model = YOLO("yolo11n.pt")  # load a pretrained model (recommended for training)
+    model = YOLO("yolo11n.yaml").load("yolo11n.pt")  # build from YAML and transfer weights
+
+    # Train the model
+    results = model.train(data="coco8.yaml", epochs=100, imgsz=640)
+```
+
+- [Configuration List](https://docs.ultralytics.com/usage/cfg/)
+
+## 2. Dataset formats
+
+- [dataset guide](https://docs.ultralytics.com/datasets/detect/#ultralytics-yolo-format)
+- for converting json to yolo format try [this](https://github.com/ultralytics/JSON2YOLO)
+
+## 3. Val
+
+for validation of YOLO11n on the COCO8 dataset.
+
+```python
+    from ultralytics import YOLO
+
+    # Load a model
+    model = YOLO("yolo11n.pt")  # load an official model
+    model = YOLO("path/to/best.pt")  # load a custom model
+
+    # Validate the model
+    metrics = model.val()  # no arguments needed, dataset and settings remembered
+    metrics.box.map  # map50-95
+    metrics.box.map50  # map50
+    metrics.box.map75  # map75
+    metrics.box.maps  # a list contains map50-95 of each category
+```
+
+## 4. Predict
+
+Use a trained YOLO11n model to run predictions on images.
+
+```python
+    from ultralytics import YOLO
+
+    # Load a model
+    model = YOLO("yolo11n.pt")  # load an official model
+    model = YOLO("path/to/best.pt")  # load a custom model
+
+    # Predict with the model
+    results = model("https://ultralytics.com/images/bus.jpg")  # predict on an image
+
+    # Access the results
+    for result in results:
+        xywh = result.boxes.xywh  # center-x, center-y, width, height
+        xywhn = result.boxes.xywhn  # normalized
+        xyxy = result.boxes.xyxy  # top-left-x, top-left-y, bottom-right-x, bottom-right-y
+        xyxyn = result.boxes.xyxyn  # normalized
+        names = [result.names[cls.item()] for cls in result.boxes.cls.int()]  # class name of each box
+        confs = result.boxes.conf  # confidence score of each box
+```
+
+## 5. Export
+
+Export a YOLO11n model to a different format like ONNX, CoreML, etc.
+
+```python
+    from ultralytics import YOLO
+
+    # Load a model
+    model = YOLO("yolo11n.pt")  # load an official model
+    model = YOLO("path/to/best.pt")  # load a custom trained model
+
+    # Export the model
+    model.export(format="onnx")
+```
+
+## FAQs
+
+1. How do I train a YOLO11 model on my custom dataset?
+    - Prepare the Dataset: Ensure your dataset is in the YOLO format. For guidance, refer to our Dataset Guide.
+    - Load the Model: Use the Ultralytics YOLO library to load a pre-trained model or create a new model from a YAML file.
+    - Train the Model: Execute the train method in Python or the yolo detect train command in CLI.
+
+    ```python
+        from ultralytics import YOLO
+
+        # Load a pretrained model
+        model = YOLO("yolo11n.pt")
+
+        # Train the model on your custom dataset
+        model.train(data="my_custom_dataset.yaml", epochs=100, imgsz=640)
+    ```
+
+2. What pretrained models are available in YOLO11?
+    - Some available models are:
+        1. YOLO11n
+        2. YOLO11s
+        3. YOLO11m
+        4. YOLO11l
+        5. YOLO11x
+
+    - All models [here](https://github.com/ultralytics/ultralytics/tree/main/ultralytics/cfg/models/11)
+
+3. Why should I use Ultralytics YOLO11 for object detection?
+    - Designed to offer state-of-the-art performance for object detection, segmentation, and pose estimation
+        1. Pretrained Models: Utilize models pretrained on popular datasets like COCO and ImageNet for faster development.
+        2. High Accuracy: Achieves impressive mAP scores, ensuring reliable object detection.
+        3. Speed: Optimized for real-time inference, making it ideal for applications requiring swift processing.
+        4. Flexibility: Export models to various formats like ONNX and TensorRT for deployment across multiple platforms.
+
+## Projects Practise
+
+1. Automatic Number Plate Recognition using yolo v12
+
+### Step 1: Train Yolov8 object detection on a custom dataset
+
+[Link](https://www.youtube.com/watch?v=m9fH9OWn8YM)
+
+- Train Yolov8 object detection on a custom dataset
+
+1. Data Annotation - use cvat to annotate data and export as yolo format
+2. Train yolov11
+
+# Resource 3 : NPTEL Course on Image Transformations and CV
+
+Access the course [here.](https://onlinecourses.nptel.ac.in/noc21_ee23/preview)
