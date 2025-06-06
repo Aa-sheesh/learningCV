@@ -1,4 +1,4 @@
-**Learning Computer Vision**
+# **Learning Computer Vision**
 
 # Resource 1
 
