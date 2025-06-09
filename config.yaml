@@ -1,9 +1,0 @@
-path: C:\Users\Aashish\OneDrive\Desktop\Github\Projects-Ongoing\learningCV\License Plate Recognition.v4-resized640_aug3x-accurate.yolov11
-# Paths to the dataset
-train: train/images
-val: valid/images
-test: test/images
-
-#Classes
-names:
-  0: number_plate
